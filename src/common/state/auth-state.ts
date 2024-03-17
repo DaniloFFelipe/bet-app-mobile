@@ -1,6 +1,7 @@
 import { create } from 'zustand'
 
 import { Session } from '../../core/user/models/session'
+import { HttpService } from '../lib/http'
 
 export type AuthStore = {
   session: Session | null
@@ -11,9 +12,11 @@ export type AuthStore = {
 export const useAuthStore = create<AuthStore>((set) => ({
   session: null,
   signUp: (session: Session) => {
+    HttpService.addBearerToken(session.token)
     set({ session })
   },
   signOut: () => {
+    HttpService.removeBearerToken()
     set({ session: null })
   },
 }))

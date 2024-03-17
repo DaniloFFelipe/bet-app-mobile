@@ -1,4 +1,4 @@
-import { makeRequest } from './axios'
+import { api, makeRequest } from './axios'
 import { endpoints } from './endpoints'
 import { AuthWithCodeRequest } from './types/request/auth-with-code-request'
 import { AuthWithPasswordRequest } from './types/request/auth-with-password-request'
@@ -23,5 +23,11 @@ export const HttpService = {
   },
   async signUp(data: SignUpRequest): ServiceResponse<void> {
     return makeRequest('mutation', endpoints.signUp(), data)
+  },
+  async addBearerToken(token: string) {
+    api.defaults.headers.common.Authorization = `Bearer ${token}`
+  },
+  async removeBearerToken() {
+    api.defaults.headers.common.Authorization = null
   },
 }
